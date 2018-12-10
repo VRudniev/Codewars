@@ -1,7 +1,6 @@
 package kyu5.first_variation_caesar_cipher;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -34,28 +33,25 @@ public class CaesarCipher {
 					sb.append(chars[i]);
 				else
 				{
-					char c = alphabet.get(getNewPositionInAlphabet(getPositionInAlphabet(chars[i]) + step));
+					char c = alphabet.get((alphabet.indexOf(chars[i]) + step) % (alphabet.size()));
 					if(isUpper)
 						c = Character.toUpperCase(c);
 					sb.append(c);
-					System.out.println("Position: " + getPositionInAlphabet(chars[i]));
-					System.out.println("Shift " + step);
 					step++;
 				}
 			}
 			sb.append(" ");
 			step++;
 		}
-		return Arrays.asList(sb.toString().split(" "));
-	}
-
-	private static int getPositionInAlphabet(char c) {
-		return alphabet.indexOf(c);
-	}
-
-	private static int getNewPositionInAlphabet(int position)
-	{
-		return position % (alphabet.size()) ;
+		String codedString = sb.toString();
+		int messageSize = (sb.length() % 5 == 0) ? sb.length() / 5 : sb.length() / 5 + 1;
+		for (int i = 0; i < 4; i++)
+		{
+			result.add(codedString.substring(0, messageSize));
+			codedString = codedString.substring(messageSize , codedString.length());
+		}
+		result.add(codedString);
+		return result;
 	}
 
 	public static String demovingShift(List<String> s, int shift) {
