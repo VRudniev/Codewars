@@ -19,7 +19,6 @@ public class CaesarCipher {
 
 	public static List<String> movingShift(String s, int shift) {
 		List<String> result = new ArrayList<>();
-		int step = shift;
 		StringBuilder sb = new StringBuilder();
 		for (String word : s.split(" "))
 		{
@@ -33,15 +32,15 @@ public class CaesarCipher {
 					sb.append(chars[i]);
 				else
 				{
-					char c = alphabet.get((alphabet.indexOf(chars[i]) + step) % (alphabet.size()));
+					char c = alphabet.get((alphabet.indexOf(chars[i]) + shift) % (alphabet.size()));
 					if(isUpper)
 						c = Character.toUpperCase(c);
 					sb.append(c);
-					step++;
+					shift++;
 				}
 			}
 			sb.append(" ");
-			step++;
+			shift++;
 		}
 		String codedString = sb.toString();
 		int messageSize = (sb.length() % 5 == 0) ? sb.length() / 5 : sb.length() / 5 + 1;
