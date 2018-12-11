@@ -11,49 +11,51 @@ public class CaesarCipher {
 			.mapToObj(c -> (char) c).collect(Collectors.toList());
 
 	public static void main(String[] args) {
-		for (String s : movingShift("I should have known that you would have a perfect answer for me!!!",1))
-		{
-			System.out.println(s);
-		}
+		System.out.println(movingShift("I should have known that you would have a perfect answer for me!!!", 1));
+		System.out.println(demovingShift(movingShift("I should have known that you would have a perfect answer for me!!!", 1), 1));
 	}
 
 	public static List<String> movingShift(String s, int shift) {
 		List<String> result = new ArrayList<>();
+		int messageSize = (s.length() % 5 == 0) ? s.length() / 5 : s.length() / 5 + 1;
 		StringBuilder sb = new StringBuilder();
-		for (String word : s.split(" "))
-		{
-			char chars[] = word.toCharArray();
-			for (int i = 0; i < word.length(); i++)
-			{
-				boolean isUpper = Character.isUpperCase(chars[i]);
-				if(isUpper)
-					chars[i] = Character.toLowerCase(chars[i]);
-				if(!alphabet.contains(chars[i]))
-					sb.append(chars[i]);
-				else
-				{
-					char c = alphabet.get((alphabet.indexOf(chars[i]) + shift) % (alphabet.size()));
-					if(isUpper)
-						c = Character.toUpperCase(c);
-					sb.append(c);
-					shift++;
-				}
-			}
-			sb.append(" ");
+		for (char c : s.toCharArray()) {
+			boolean isUpper = Character.isUpperCase(c);
+			int indexOf = alphabet.indexOf(Character.toLowerCase(c));
+			if (indexOf >= 0) {
+				c = alphabet.get((indexOf + shift) % (alphabet.size()));
+				if (isUpper)
+					c = Character.toUpperCase(c);
+				sb.append(c);
+			} else
+				sb.append(c);
 			shift++;
+			if (sb.length() >= messageSize) {
+				result.add(sb.toString().substring(0, messageSize));
+				sb.delete(0, messageSize);
+			}
 		}
-		String codedString = sb.toString();
-		int messageSize = (sb.length() % 5 == 0) ? sb.length() / 5 : sb.length() / 5 + 1;
-		for (int i = 0; i < 4; i++)
-		{
-			result.add(codedString.substring(0, messageSize));
-			codedString = codedString.substring(messageSize , codedString.length());
-		}
-		result.add(codedString);
+		if (result.size() < 5)
+			result.add(sb.toString());
 		return result;
 	}
 
 	public static String demovingShift(List<String> s, int shift) {
-		return null;
+		StringBuilder sb = new StringBuilder();
+		String codedMessage = s.stream().collect(Collectors.joining());
+		int size = codedMessage.length();
+		for (char c : codedMessage.toCharArray()) {
+			boolean isUpper = Character.isUpperCase(c);
+			int indexOf = alphabet.indexOf(Character.toLowerCase(c));
+			if (indexOf >= 0) {
+				c = alphabet.get(((indexOf - shift) + (alphabet.size() * size)) % alphabet.size());
+				if (isUpper)
+					c = Character.toUpperCase(c);
+				sb.append(c);
+			} else
+				sb.append(c);
+			shift++;
+		}
+		return sb.toString();
 	}
 }
