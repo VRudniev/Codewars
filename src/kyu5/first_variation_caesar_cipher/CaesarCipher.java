@@ -26,9 +26,8 @@ public class CaesarCipher {
 				c = alphabet.get((indexOf + shift) % (alphabet.size()));
 				if (isUpper)
 					c = Character.toUpperCase(c);
-				sb.append(c);
-			} else
-				sb.append(c);
+			}
+			sb.append(c);
 			shift++;
 			if (sb.length() >= messageSize) {
 				result.add(sb.toString().substring(0, messageSize));
@@ -51,9 +50,8 @@ public class CaesarCipher {
 				c = alphabet.get(((indexOf - shift) + (alphabet.size() * size)) % alphabet.size());
 				if (isUpper)
 					c = Character.toUpperCase(c);
-				sb.append(c);
-			} else
-				sb.append(c);
+			}
+			sb.append(c);
 			shift++;
 		}
 		return sb.toString();
