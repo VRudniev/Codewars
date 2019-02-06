@@ -45,7 +45,7 @@ public class CaesarTwo
 		System.out.println(decode(encodeStr("O CAPTAIN! my Captain! our fearful trip is done;", 1)));
 	}
 
-	public static List<String> encodeStr(String s, int shift) {
+	private static List<String> encodeStr(String s, int shift) {
 		List<String> result = new ArrayList<>();
 		int inputMessageLength = s.length() + 2;
 		int messageSize = (inputMessageLength % 5 == 0) ? inputMessageLength / 5 : inputMessageLength / 5 + 1;
@@ -65,9 +65,9 @@ public class CaesarTwo
 		return result;
 	}
 
-	public static String decode(List<String> s) {
+	private static String decode(List<String> s) {
 		StringBuilder sb = new StringBuilder();
-		String codedMessage = s.stream().collect(Collectors.joining());
+		String codedMessage = String.join("", s);
 		int shift = alphabet.indexOf(codedMessage.charAt(1)) - alphabet.indexOf(codedMessage.charAt(0));
 		codedMessage = codedMessage.substring(2);
 		int size = codedMessage.length();
