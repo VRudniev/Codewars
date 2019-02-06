@@ -52,9 +52,9 @@ public class CaesarTwo
 		StringBuilder sb = new StringBuilder();
 		char firstChar = Character.toLowerCase(s.charAt(0));
 		sb.append(firstChar);
-		sb.append(getIncodedChar(firstChar, shift));
+		sb.append(getEncodedChar(firstChar, shift));
 		for (char c : s.toCharArray()) {
-			sb.append(getIncodedChar(c, shift));
+			sb.append(getEncodedChar(c, shift));
 			if (sb.length() >= messageSize) {
 				result.add(sb.toString().substring(0, messageSize));
 				sb.delete(0, messageSize);
@@ -84,7 +84,7 @@ public class CaesarTwo
 		return sb.toString();
 	}
 
-	private static char getIncodedChar(char c, int shift) {
+	private static char getEncodedChar(char c, int shift) {
 		boolean isUpper = Character.isUpperCase(c);
 		int indexOf = alphabet.indexOf(Character.toLowerCase(c));
 		if (indexOf >= 0) {
